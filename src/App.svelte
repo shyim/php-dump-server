@@ -14,4 +14,3 @@
         <Message message={message} />
     {/each}
 </main>
-
