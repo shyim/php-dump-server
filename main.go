@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/h2non/filetype"
 	"gopkg.in/antage/eventsource.v1"
 	"io/ioutil"
 	"log"
@@ -28,7 +27,7 @@ func main() {
 	http.HandleFunc("/unlock", unlock)
 	http.HandleFunc("/is-locked", isLocked)
 	http.Handle("/events", es)
-	http.HandleFunc("/", serveStaticFile)
+	http.Handle("/", http.FileServer(AssetFile()))
 
 	err := http.ListenAndServe(fmt.Sprintf(":%d", *port), nil)
 	if err != nil {
@@ -91,22 +90,4 @@ func unlock(w http.ResponseWriter, r *http.Request) {
 	delete(lockState, id)
 
 	log.Printf("Removed lock for %s\n", id)
-}
-
-func serveStaticFile(w http.ResponseWriter, r *http.Request) {
-	filePath := r.URL.Path
-
-	if filePath == "/" {
-		filePath = "/index.html"
-	}
-
-	file, err := Asset(fmt.Sprintf("public%s", filePath))
-	if err != nil {
-		w.WriteHeader(404)
-		return
-	}
-
-	kind := filetype.GetType(filePath)
-	w.Header().Set("Content-Type", kind.MIME.Value)
-	w.Write(file)
 }

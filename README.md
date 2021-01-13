@@ -24,8 +24,7 @@ npm run build
 # Install go-bindata
 go install github.com/go-bindata/go-bindata/...
 
-go-bindata public/ public/bundle/
-go build
+make build
 ```
 
 To edit the UI you can run `npm run dev` to have a Watch Server at `http://localhost:5000`. Make sure you have still running the Go Server.
