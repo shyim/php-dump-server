@@ -12,7 +12,13 @@ if (isProduction) {
 
 eventSource.onmessage = function (message) {
     messageStore.update(m => {
-        m.push(JSON.parse(message.data));
+        const data = JSON.parse(message.data);
+        if (data['payloads'].length === 1 && data['payloads'][0]['type'] === 'clear') {
+            m = [];
+        } else {
+            m.push(data);
+        }
+
         return m;
     })
 }
