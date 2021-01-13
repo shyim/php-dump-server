@@ -2,6 +2,7 @@
     import CodeElement from './Elements/CodeElement.svelte';
     import HtmlElement from './Elements/HtmlElement.svelte';
     import TableElement from './Elements/TableElement.svelte';
+    import PauseElement from './Elements/PauseElement.svelte';
 
     export let message;
 
@@ -27,6 +28,8 @@
                 <HtmlElement content={payload['content']} />
             {:else if payload['type'] === 'table'}
                 <TableElement content={payload['content']} />
+            {:else if payload['type'] === 'pause'}
+                <PauseElement uuid={message['uuid']} />
             {/if}
         {/each}
     </div>
