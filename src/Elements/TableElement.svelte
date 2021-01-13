@@ -3,8 +3,8 @@
 </script>
 
 <table>
-    {#if content['header']}
-        {#each content['header'] as header}
+    {#if content['headers']}
+        {#each content['headers'] as header}
             <th>{header}</th>
         {/each}
     {/if}

@@ -20,7 +20,7 @@
     </div>
 
     <div class="content">
-        {#each message['payload'] as payload}
+        {#each message['payloads'] as payload}
             {#if payload['type'] === 'code'}
                 <CodeElement content={payload['content']} />
             {:else if payload['type'] === 'html'}
