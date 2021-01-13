@@ -1,4 +1,6 @@
 /node_modules/
 /public/build/
-
+/.idea
+/bindata.go
+/php-dump-server
 .DS_Store

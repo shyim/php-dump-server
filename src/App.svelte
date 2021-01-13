@@ -10,7 +10,7 @@
 </svelte:head>
 
 <main>
-    {#each $messageStore as message}
+    {#each $messageStore.reverse() as message}
         <Message message={message} />
     {/each}
 </main>
