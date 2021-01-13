@@ -1,12 +1,31 @@
-# php-dump (pd) client
+# PHP Dump Server
 
-Client for php-dump
+Server for the [Client](https://github.com/shyim/php-dump-client)
 
-## Dev Setup
+## Stack:
 
-First clone the repo then inside the directory run
+* UI is build using Svelte
+* Webserver is running with Go
+
+The compiled UI will be build into the Binary, so you need to start only the Binary.
+
+# Installation
+
+* Download the latest Version from releases or Build own see below
+* Run the dump server
+* Open Webbrowser and visit "http://localhost:9009"
+
+# Building
+
+```bash
+npm install
+npm run build
+
+# Install go-bindata
+go install github.com/go-bindata/go-bindata/...
+
+go-bindata public/ public/bundle/
+go build
 ```
-yarn install
-yarn run dev
-```
-After that a local webserver should start (default [localhost:5000](http://localhost:5000/)).
+
+To edit the UI you can run `npm run dev` to have a Watch Server at `http://localhost:5000`. Make sure you have still running the Go Server.

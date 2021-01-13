@@ -1,0 +1,45 @@
+before:
+  hooks:
+    - go mod download
+    - go-bindata public/ public/build
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+
+archives:
+  - replacements:
+      darwin: Darwin
+      linux: Linux
+      windows: Windows
+      386: i386
+      amd64: x86_64
+
+release:
+  github:
+    owner: shyim
+    name: php-dump-server
+
+dockers:
+  - image_templates:
+      - "ghcr.io/shyim/php-dump-server:{{ .Tag }}"
+      - "ghcr.io/shyim/php-dump-server:v{{ .Major }}"
+      - "ghcr.io/shyim/php-dump-server:v{{ .Major }}.{{ .Minor }}"
+      - "ghcr.io/shyim/php-dump-server:latest"
+
+checksum:
+  name_template: 'checksums.txt'
+
+snapshot:
+  name_template: "{{ .Tag }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
