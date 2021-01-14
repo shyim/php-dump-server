@@ -19,6 +19,7 @@ func main() {
 		return [][]byte{[]byte("Access-Control-Allow-Origin: http://localhost:5000")}
 	})
 	defer es.Close()
+	host := flag.String("host", "", "Listen on")
 	port := flag.Int("port", 9009, "Listen port for Server")
 
 	flag.Parse()
@@ -29,7 +30,8 @@ func main() {
 	http.Handle("/events", es)
 	http.Handle("/", http.FileServer(AssetFile()))
 
-	err := http.ListenAndServe(fmt.Sprintf(":%d", *port), nil)
+	log.Printf("Starting webserver at %s:%d\n", *host, *port)
+	err := http.ListenAndServe(fmt.Sprintf("%s:%d", *host, *port), nil)
 	if err != nil {
 		log.Fatalln(err)
 	}
