@@ -26,11 +26,12 @@
 
     <div class="content">
         {#each message['payloads'] as payload}
+
             <div class="element">
                 {#if payload['type'] === 'code'}
                     <CodeElement content={payload['content']} />
                 {:else if payload['type'] === 'html'}
-                    <HtmlElement content={payload['content']} />
+                    <HtmlElement payload={payload} />
                 {:else if payload['type'] === 'table'}
                     <TableElement content={payload['content']} />
                 {:else if payload['type'] === 'pause'}

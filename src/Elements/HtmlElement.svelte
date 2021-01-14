@@ -1,24 +1,27 @@
 <script>
     import { onMount } from 'svelte';
-    export let content;
-    export const id = '_' + Math.random().toString(36).substr(2, 9);
+    export let payload;
 
-    const setInnerHTML = function(elm, html) {
-        elm.innerHTML = html;
+    const executeJS = function() {
+        document.body.querySelectorAll('.html-code').forEach(element => {
+            element.classList.remove('html-code');
 
-        Array.from(elm.querySelectorAll('script')).forEach(oldScript => {
-            const newScript = document.createElement('script');
+            Array.from(element.querySelectorAll('script')).forEach(oldScript => {
+                const newScript = document.createElement('script');
 
-            Array.from(oldScript.attributes)
-                .forEach( attr => newScript.setAttribute(attr.name, attr.value) );
-            newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-            oldScript.parentNode.replaceChild(newScript, oldScript);
-        });
+                Array.from(oldScript.attributes)
+                    .forEach( attr => newScript.setAttribute(attr.name, attr.value) );
+                newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+                oldScript.parentNode.replaceChild(newScript, oldScript);
+            });
+        })
     }
 
     onMount(() => {
-        setInnerHTML(document.getElementById(id), content)
+        executeJS();
     });
 </script>
 
-<div id={id}></div>
+<div class="html-code">
+    {@html payload.content}
+</div>
