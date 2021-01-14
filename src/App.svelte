@@ -1,12 +1,12 @@
 <script>
     import { messageStore } from './messageStore.js';
-    import { github } from "svelte-highlight/styles";
+    import { dracula } from "svelte-highlight/styles";
 
     import Message from './Message.svelte';
 </script>
 
 <svelte:head>
-    {@html github}
+    {@html dracula}
 </svelte:head>
 
 <main>

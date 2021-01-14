@@ -6,12 +6,16 @@
 
     export let message;
 
-    console.log(message);
+    function formatDate(time) {
+        const d = new Date();
+        d.setTime(time * 1000);
+        return d.toLocaleTimeString();
+    }
 </script>
 
 <div class="message">
     <div class="information">
-        <span class="time">{message['time']}</span>
+        <span class="time">{formatDate(message.time)}</span>
 
         <div class="tags">
             {#each message['tags'] as tag}
@@ -22,15 +26,17 @@
 
     <div class="content">
         {#each message['payloads'] as payload}
-            {#if payload['type'] === 'code'}
-                <CodeElement content={payload['content']} />
-            {:else if payload['type'] === 'html'}
-                <HtmlElement content={payload['content']} />
-            {:else if payload['type'] === 'table'}
-                <TableElement content={payload['content']} />
-            {:else if payload['type'] === 'pause'}
-                <PauseElement uuid={message['uuid']} />
-            {/if}
+            <div class="element">
+                {#if payload['type'] === 'code'}
+                    <CodeElement content={payload['content']} />
+                {:else if payload['type'] === 'html'}
+                    <HtmlElement content={payload['content']} />
+                {:else if payload['type'] === 'table'}
+                    <TableElement content={payload['content']} />
+                {:else if payload['type'] === 'pause'}
+                    <PauseElement message={message} />
+                {/if}
+            </div>
         {/each}
     </div>
 
@@ -43,9 +49,9 @@
     .message {
         display: flex;
         flex-flow: row wrap;
-        border: 1px solid #333;
         padding: 20px;
         margin: 20px;
+        background: #121212;
     }
 
     .information {
@@ -58,5 +64,9 @@
 
     .origin {
         width: 100%;
+    }
+
+    .element {
+        margin-bottom: 10px;
     }
 </style>

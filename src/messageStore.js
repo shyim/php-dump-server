@@ -14,6 +14,8 @@ eventSource.onmessage = function (message) {
             m.push(data);
         }
 
+        m.sort((a, b) => a.time - b.time);
+
         return m;
     })
 }

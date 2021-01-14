@@ -1,14 +1,17 @@
 <script>
     import { assembleUrl } from '../util';
-    export let uuid;
+    export let message;
 
     function resumeExecution() {
+        message.resumed = true;
         fetch(assembleUrl('/unlock'), {
             headers: {
-              'pd-id': uuid
+              'pd-id': message.uuid
             }
         });
     }
 </script>
 
-<button on:click|once={resumeExecution}>Resume {uuid}</button>
+{#if message.resumed === undefined }
+    <button on:click={resumeExecution}>Resume</button>
+{/if}
