@@ -1,14 +1,9 @@
 import { writable } from 'svelte/store';
+import { assembleUrl } from './util';
 
 export const messageStore = writable([]);
 
-let eventSource;
-
-if (isProduction) {
-    eventSource = new EventSource('/events');
-} else {
-    eventSource = new EventSource('http://localhost:9009/events');
-}
+let eventSource = new EventSource(assembleUrl('/events'));
 
 eventSource.onmessage = function (message) {
     messageStore.update(m => {

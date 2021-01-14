@@ -1,8 +1,9 @@
 <script>
+    import { assembleUrl } from '../util';
     export let uuid;
 
     function resumeExecution() {
-        fetch('http://localhost:9009/unlock', {
+        fetch(assembleUrl('/unlock'), {
             headers: {
               'pd-id': uuid
             }
