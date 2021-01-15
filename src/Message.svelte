@@ -3,19 +3,14 @@
     import HtmlElement from './Elements/HtmlElement.svelte';
     import TableElement from './Elements/TableElement.svelte';
     import PauseElement from './Elements/PauseElement.svelte';
+    import FormattedTimestamp from './FormattedTimestamp.svelte';
 
     export let message;
-
-    function formatDate(time) {
-        const d = new Date();
-        d.setTime(time * 1000);
-        return d.toLocaleTimeString();
-    }
 </script>
 
 <div class="message">
     <div class="information">
-        <span class="time">{formatDate(message.time)}</span>
+        <FormattedTimestamp unixTimestamp={message['time']} />
 
         <div class="tags">
             {#each message['tags'] as tag}
@@ -26,7 +21,6 @@
 
     <div class="content">
         {#each message['payloads'] as payload}
-
             <div class="element">
                 {#if payload['type'] === 'code'}
                     <CodeElement content={payload['content']} />
