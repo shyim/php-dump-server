@@ -3,6 +3,10 @@
     import { dracula } from "svelte-highlight/styles";
 
     import Message from './Message.svelte';
+
+    let messages = [];
+
+    $: messages = Object.values($messageStore).sort((a, b) => b.time - a.time);
 </script>
 
 <svelte:head>
@@ -10,7 +14,7 @@
 </svelte:head>
 
 <main>
-    {#each $messageStore.reverse() as message}
+    {#each messages as message}
         <Message message={message} />
     {/each}
 </main>
