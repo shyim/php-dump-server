@@ -1,27 +1,24 @@
 <script>
-    import { onMount } from 'svelte';
+    import { afterUpdate } from 'svelte';
     export let payload;
+    let container;
 
-    const executeJS = function() {
-        document.body.querySelectorAll('.html-code').forEach(element => {
-            element.classList.remove('html-code');
+    const executeJS = function(element) {
+        Array.from(element.querySelectorAll('script')).forEach(oldScript => {
+            const newScript = document.createElement('script');
 
-            Array.from(element.querySelectorAll('script')).forEach(oldScript => {
-                const newScript = document.createElement('script');
-
-                Array.from(oldScript.attributes)
-                    .forEach( attr => newScript.setAttribute(attr.name, attr.value) );
-                newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-                oldScript.parentNode.replaceChild(newScript, oldScript);
-            });
-        })
+            Array.from(oldScript.attributes)
+                .forEach( attr => newScript.setAttribute(attr.name, attr.value) );
+            newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+        });
     }
 
-    onMount(() => {
-        executeJS();
+    afterUpdate(() => {
+        executeJS(container);
     });
 </script>
 
-<div class="html-code">
+<div class="html-code" bind:this={container}>
     {@html payload.content}
 </div>
