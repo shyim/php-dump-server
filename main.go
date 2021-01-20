@@ -45,7 +45,7 @@ func clientEvent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Println("Incomming request from PD")
+	log.Println("Incoming request from pd()")
 	es.SendEventMessage(string(body), "message", "1")
 
 	pdAction := r.Header.Get("pd-action")
