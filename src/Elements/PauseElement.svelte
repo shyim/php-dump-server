@@ -6,12 +6,12 @@
         message.resumed = true;
         fetch(assembleUrl('/unlock'), {
             headers: {
-              'pd-id': message.uuid
-            }
+                'pd-id': message.uuid,
+            },
         });
     }
 </script>
 
-{#if message.resumed === undefined }
-    <button on:click={resumeExecution}>Resume</button>
+{#if message.resumed === undefined}
+    <button on:click="{resumeExecution}">Resume</button>
 {/if}

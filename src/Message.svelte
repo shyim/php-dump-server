@@ -1,45 +1,3 @@
-<script>
-    import CodeElement from './Elements/CodeElement.svelte';
-    import HtmlElement from './Elements/HtmlElement.svelte';
-    import TableElement from './Elements/TableElement.svelte';
-    import PauseElement from './Elements/PauseElement.svelte';
-    import FormattedTimestamp from './FormattedTimestamp.svelte';
-
-    export let message;
-</script>
-
-<div class="message">
-    <div class="information">
-        <FormattedTimestamp unixTimestamp={message['time']} />
-
-        <div class="tags">
-            {#each message['tags'] as tag}
-                <span>{tag}</span>
-            {/each}
-        </div>
-    </div>
-
-    <div class="content">
-        {#each message['payloads'] as payload}
-            <div class="element">
-                {#if payload['type'] === 'code'}
-                    <CodeElement content={payload['content']} />
-                {:else if payload['type'] === 'html'}
-                    <HtmlElement payload={payload} />
-                {:else if payload['type'] === 'table'}
-                    <TableElement content={payload['content']} />
-                {:else if payload['type'] === 'pause'}
-                    <PauseElement message={message} />
-                {/if}
-            </div>
-        {/each}
-    </div>
-
-    <div class="origin">
-        {message['origin']['fileName']}:{message['origin']['lineNumber']}
-    </div>
-</div>
-
 <style type="text/css">
     .message {
         display: flex;
@@ -65,3 +23,45 @@
         margin-bottom: 10px;
     }
 </style>
+
+<script>
+    import CodeElement from './Elements/CodeElement.svelte';
+    import HtmlElement from './Elements/HtmlElement.svelte';
+    import TableElement from './Elements/TableElement.svelte';
+    import PauseElement from './Elements/PauseElement.svelte';
+    import FormattedTimestamp from './FormattedTimestamp.svelte';
+
+    export let message;
+</script>
+
+<div class="message">
+    <div class="information">
+        <FormattedTimestamp unixTimestamp="{message['time']}" />
+
+        <div class="tags">
+            {#each message['tags'] as tag}
+                <span>{tag}</span>
+            {/each}
+        </div>
+    </div>
+
+    <div class="content">
+        {#each message['payloads'] as payload}
+            <div class="element">
+                {#if payload['type'] === 'code'}
+                    <CodeElement content="{payload['content']}" />
+                {:else if payload['type'] === 'html'}
+                    <HtmlElement payload="{payload}" />
+                {:else if payload['type'] === 'table'}
+                    <TableElement content="{payload['content']}" />
+                {:else if payload['type'] === 'pause'}
+                    <PauseElement message="{message}" />
+                {/if}
+            </div>
+        {/each}
+    </div>
+
+    <div class="origin">
+        {message['origin']['fileName']}:{message['origin']['lineNumber']}
+    </div>
+</div>

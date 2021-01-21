@@ -11,7 +11,7 @@ eventSource.onmessage = function (message) {
     const data = JSON.parse(message.data);
     let clear = false;
 
-    messageStore.update(m => {
+    messageStore.update((m) => {
         if (data['payloads'].length === 1 && data['payloads'][0]['type'] === 'clear') {
             m = {};
             clear = true;
@@ -22,12 +22,12 @@ eventSource.onmessage = function (message) {
         return m;
     });
 
-    if (data['tags'] && data['tags'].length || clear) {
-        tagStore.update(t => {
+    if ((data['tags'] && data['tags'].length) || clear) {
+        tagStore.update((t) => {
             if (clear) {
                 t = new Set();
             } else {
-                data['tags'].forEach(tag => {
+                data['tags'].forEach((tag) => {
                     t.add(tag);
                 });
             }
@@ -35,4 +35,4 @@ eventSource.onmessage = function (message) {
             return t;
         });
     }
-}
+};

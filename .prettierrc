@@ -1,0 +1,8 @@
+{
+    "tabWidth": 4,
+    "singleQuote": true,
+    "printWidth": 99,
+    "svelteSortOrder" : "options-styles-scripts-markup",
+    "svelteStrictMode": true,
+    "svelteAllowShorthand": false
+}

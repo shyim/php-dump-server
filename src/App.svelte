@@ -1,6 +1,18 @@
+<style type="text/css">
+    .tags span {
+        display: inline-block;
+        padding: 10px;
+        margin-right: 15px;
+    }
+
+    .tags .active {
+        background: #18171b;
+    }
+</style>
+
 <script>
     import { messageStore, tagStore, activeTagStore } from './stores.js';
-    import { dracula } from "svelte-highlight/styles";
+    import { dracula } from 'svelte-highlight/styles';
 
     import Message from './Message.svelte';
 
@@ -9,7 +21,7 @@
         activeTags = [];
 
     function switchTagStatus(tag) {
-        activeTagStore.update(t => {
+        activeTagStore.update((t) => {
             if (t.has(tag)) {
                 t.delete(tag);
             } else {
@@ -30,9 +42,9 @@
         }
 
         let show = false;
-        message['tags'].forEach(tag => {
+        message['tags'].forEach((tag) => {
             if ($activeTagStore.has(tag)) {
-                show = true
+                show = true;
             }
         });
 
@@ -40,7 +52,7 @@
     }
 
     function getMessages(messages) {
-        messages = messages.filter(message => {
+        messages = messages.filter((message) => {
             return showMessage(message);
         });
         displayMessages = messages.sort((a, b) => b.time - a.time);
@@ -59,8 +71,7 @@
         {#each tags as tag}
             <span
                 class="{$activeTagStore.has(tag) ? 'active' : ''}"
-                on:click={switchTagStatus(tag)}
-            >
+                on:click="{switchTagStatus(tag)}">
                 {tag}
             </span>
         {/each}
@@ -68,19 +79,7 @@
 
     {#each displayMessages as message}
         {#if showMessage(message)}
-            <Message message={message} />
+            <Message message="{message}" />
         {/if}
     {/each}
 </main>
-
-<style type="text/css">
-    .tags span {
-        display: inline-block;
-        padding: 10px;
-        margin-right: 15px;
-    }
-
-    .tags .active {
-        background: #18171B;
-    }
-</style>
