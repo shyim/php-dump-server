@@ -8,6 +8,8 @@ import (
 	"log"
 	"net/http"
 	"sync"
+	"runtime"
+	"os/exec"
 )
 
 var es eventsource.EventSource
@@ -31,10 +33,18 @@ func main() {
 	http.Handle("/", http.FileServer(AssetFile()))
 
 	log.Printf("Starting webserver at %s:%d\n", *host, *port)
+
+	url := fmt.Sprintf("localhost:%d", *port)
+	if (*host != "") {
+		url = fmt.Sprintf("%s:%d", *host, *port)
+	}
+	openbrowser(fmt.Sprintf("%s", url))
+
 	err := http.ListenAndServe(fmt.Sprintf("%s:%d", *host, *port), nil)
 	if err != nil {
 		log.Fatalln(err)
 	}
+
 }
 
 func clientEvent(w http.ResponseWriter, r *http.Request) {
@@ -95,4 +105,25 @@ func unlock(w http.ResponseWriter, r *http.Request) {
 	delete(lockState, id)
 
 	log.Printf("Removed lock for %s\n", id)
+}
+
+
+func openbrowser(url string) {
+	var err error
+
+	log.Printf("Try to opening URL %s in browser\n", url)
+	switch runtime.GOOS {
+		case "linux":
+			err = exec.Command("xdg-open", url).Run()
+		case "windows":
+			err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Run()
+		case "darwin":
+			err = exec.Command("open", url).Run()
+		default:
+			err = fmt.Errorf("unsupported platform")
+	}
+
+	if err != nil {
+		log.Println(err)
+	}
 }
