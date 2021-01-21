@@ -25,7 +25,6 @@
 </style>
 
 <script>
-    import CodeElement from './Elements/CodeElement.svelte';
     import HtmlElement from './Elements/HtmlElement.svelte';
     import TableElement from './Elements/TableElement.svelte';
     import PauseElement from './Elements/PauseElement.svelte';
@@ -48,9 +47,7 @@
     <div class="content">
         {#each message['payloads'] as payload}
             <div class="element">
-                {#if payload['type'] === 'code'}
-                    <CodeElement content="{payload['content']}" />
-                {:else if payload['type'] === 'html'}
+                {#if payload['type'] === 'html'}
                     <HtmlElement payload="{payload}" />
                 {:else if payload['type'] === 'table'}
                     <TableElement content="{payload['content']}" />

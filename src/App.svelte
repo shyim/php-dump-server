@@ -12,7 +12,6 @@
 
 <script>
     import { messageStore, tagStore, activeTagStore } from './stores.js';
-    import { dracula } from 'svelte-highlight/styles';
 
     import Message from './Message.svelte';
 
@@ -61,10 +60,6 @@
     $: $activeTagStore && getMessages(Object.values($messageStore));
     $: tags = [...$tagStore];
 </script>
-
-<svelte:head>
-    {@html dracula}
-</svelte:head>
 
 <main>
     <div class="tags">
