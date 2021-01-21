@@ -1,12 +1,53 @@
 <script>
-    import { messageStore } from './messageStore.js';
+    import { messageStore, tagStore, activeTagStore } from './stores.js';
     import { dracula } from "svelte-highlight/styles";
 
     import Message from './Message.svelte';
 
-    let messages = [];
+    let displayMessages = [],
+        tags = [],
+        activeTags = [];
 
-    $: messages = Object.values($messageStore).sort((a, b) => b.time - a.time);
+    function switchTagStatus(tag) {
+        activeTagStore.update(t => {
+            if (t.has(tag)) {
+                t.delete(tag);
+            } else {
+                t.add(tag);
+            }
+
+            return t;
+        });
+    }
+
+    function showMessage(message) {
+        if ($activeTagStore.size === 0) {
+            return true;
+        }
+
+        if (!message['tags'] || message['tags'].length === 0) {
+            return false;
+        }
+
+        let show = false;
+        message['tags'].forEach(tag => {
+            if ($activeTagStore.has(tag)) {
+                show = true
+            }
+        });
+
+        return show;
+    }
+
+    function getMessages(messages) {
+        messages = messages.filter(message => {
+            return showMessage(message);
+        });
+        displayMessages = messages.sort((a, b) => b.time - a.time);
+    }
+
+    $: $activeTagStore && getMessages(Object.values($messageStore));
+    $: tags = [...$tagStore];
 </script>
 
 <svelte:head>
@@ -14,7 +55,32 @@
 </svelte:head>
 
 <main>
-    {#each messages as message}
-        <Message message={message} />
+    <div class="tags">
+        {#each tags as tag}
+            <span
+                class="{$activeTagStore.has(tag) ? 'active' : ''}"
+                on:click={switchTagStatus(tag)}
+            >
+                {tag}
+            </span>
+        {/each}
+    </div>
+
+    {#each displayMessages as message}
+        {#if showMessage(message)}
+            <Message message={message} />
+        {/if}
     {/each}
 </main>
+
+<style type="text/css">
+    .tags span {
+        display: inline-block;
+        padding: 10px;
+        margin-right: 15px;
+    }
+
+    .tags .active {
+        background: #18171B;
+    }
+</style>
