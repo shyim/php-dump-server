@@ -5,7 +5,8 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public",
-    "prettier": "prettier --write --plugin-search-dir=. \"./**/*.{svelte,html,js}\""
+    "prettier": "prettier --write --plugin-search-dir=. \"./**/*.{svelte,html,js}\"",
+    "prettier-check": "prettier --check --plugin-search-dir=. \"./**/*.{svelte,html,js}\""
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^16.0.0",
