@@ -66,7 +66,8 @@
         {#each tags as tag}
             <span
                 class="{$activeTagStore.has(tag) ? 'active' : ''}"
-                on:click="{switchTagStatus(tag)}">
+                on:click="{switchTagStatus(tag)}"
+            >
                 {tag}
             </span>
         {/each}

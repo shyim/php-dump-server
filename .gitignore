@@ -4,4 +4,3 @@
 /bindata.go
 /php-dump-server
 .DS_Store
-/package-lock.json
