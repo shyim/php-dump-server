@@ -6,7 +6,8 @@
     "dev": "rollup -c -w",
     "start": "sirv public",
     "prettier": "prettier --write --plugin-search-dir=. \"./**/*.{svelte,html,js}\"",
-    "prettier-check": "prettier --check --plugin-search-dir=. \"./**/*.{svelte,html,js}\""
+    "prettier-check": "prettier --check --plugin-search-dir=. \"./**/*.{svelte,html,js}\"",
+    "send-sample-output": "curl -X POST \"localhost:9009/client\" -H \"accept: application/json\" -H \"Content-Type: application/json\" -H \"pd-id: d23db8dd-f46c-44bb-a88d-f29442a77879\" --data-binary @test-table.json && curl -X POST \"localhost:9009/client\" -H \"accept: application/json\" -H \"Content-Type: application/json\" -H \"pd-id: d23db8dd-f46c-44bb-a88d-f29442a77879\" --data-binary @test-html.json && curl -X POST \"localhost:9009/client\" -H \"accept: application/json\" -H \"Content-Type: application/json\" -H \"pd-id: d23db8dd-f46c-44bb-a88d-f29442a77879\" --data-binary @test-pause.json"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^16.0.0",

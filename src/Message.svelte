@@ -2,9 +2,9 @@
     .message {
         display: flex;
         flex-flow: row wrap;
-        padding: 20px;
-        margin: 20px;
-        background: #121212;
+        padding: 30px 20px;
+        margin: 0 20px;
+        border-bottom: 1px solid #393939;
     }
 
     .information {
@@ -16,11 +16,22 @@
     }
 
     .origin {
-        width: 100%;
+        padding-left: 10%;
+        margin-top: 15px;
+        font-family: monospace;
     }
 
     .element {
         margin-bottom: 10px;
+    }
+
+    .tags span {
+        display: inline-block;
+        padding: 2px 10px;
+        margin: 10px 15px 0 0;
+        background: rgba(255,255,255,.1);
+        border-radius: 3px;
+        line-height: 1.2
     }
 </style>
 
