@@ -13,5 +13,5 @@
 </script>
 
 {#if message.resumed === undefined}
-    <button on:click="{resumeExecution}">Resume</button>
+    <button class="btn" on:click="{resumeExecution}">Resume ⏵</button>
 {/if}

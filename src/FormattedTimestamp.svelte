@@ -1,3 +1,9 @@
+<style type="text/css">
+    .time {
+        font-family: monospace;
+    }
+</style>
+
 <script>
     export let unixTimestamp;
 
