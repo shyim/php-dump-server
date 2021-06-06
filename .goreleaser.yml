@@ -1,7 +1,6 @@
 before:
   hooks:
     - go mod download
-    - go-bindata -fs -prefix "public/" public/ public/build
 
 builds:
   - env:
@@ -43,3 +42,21 @@ changelog:
     exclude:
       - '^docs:'
       - '^test:'
+
+nfpms:
+ -
+    package_name: php-dump-server
+    vendor: Shyim
+    homepage: https://github.com/shyim/php-dump-server/
+    maintainer: Shyim <github@shyim.de>
+    description: PHP Dump Server
+    license: MIT
+    formats:
+      - apk
+      - deb
+      - rpm
+
+    contents:
+      - src: php-dump-server.service
+        dst: /etc/xdg/systemd/user/php-dump-server.service
+        type: config

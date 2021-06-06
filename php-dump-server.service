@@ -1,0 +1,11 @@
+[Unit]
+Description=PHP Dump Server
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/local/bin/php-dump-server
+
+[Install]
+WantedBy=multi-user.target
