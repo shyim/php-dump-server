@@ -21,9 +21,6 @@ The compiled UI will be build into the Binary, so you need to start only the Bin
 npm install
 npm run build
 
-# Install go-bindata
-go install github.com/go-bindata/go-bindata/...
-
 make build
 ```
 

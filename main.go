@@ -1,17 +1,22 @@
 package main
 
 import (
+	"embed"
 	"flag"
 	"fmt"
-	"gopkg.in/antage/eventsource.v1"
+	"io/fs"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"sync"
-	"runtime"
 	"os/exec"
+	"runtime"
+	"sync"
+
+	"gopkg.in/antage/eventsource.v1"
 )
 
+//go:embed public/*
+var static embed.FS
 var es eventsource.EventSource
 var lockState = make(map[string]bool)
 var lockMutex = &sync.Mutex{}
@@ -30,15 +35,15 @@ func main() {
 	http.HandleFunc("/unlock", unlock)
 	http.HandleFunc("/is-locked", isLocked)
 	http.Handle("/events", es)
-	http.Handle("/", http.FileServer(AssetFile()))
+	http.Handle("/", http.FileServer(getFileSystem()))
 
 	log.Printf("Starting webserver at %s:%d\n", *host, *port)
 
 	url := fmt.Sprintf("localhost:%d", *port)
-	if (*host != "") {
+	if *host != "" {
 		url = fmt.Sprintf("%s:%d", *host, *port)
 	}
-	openbrowser(fmt.Sprintf("%s", url))
+	openbrowser(url)
 
 	err := http.ListenAndServe(fmt.Sprintf("%s:%d", *host, *port), nil)
 	if err != nil {
@@ -107,23 +112,30 @@ func unlock(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Removed lock for %s\n", id)
 }
 
-
 func openbrowser(url string) {
 	var err error
 
 	log.Printf("Try to opening URL %s in browser\n", url)
 	switch runtime.GOOS {
-		case "linux":
-			err = exec.Command("xdg-open", url).Run()
-		case "windows":
-			err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Run()
-		case "darwin":
-			err = exec.Command("open", url).Run()
-		default:
-			err = fmt.Errorf("unsupported platform")
+	case "linux":
+		err = exec.Command("xdg-open", url).Run()
+	case "windows":
+		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Run()
+	case "darwin":
+		err = exec.Command("open", url).Run()
+	default:
+		err = fmt.Errorf("unsupported platform")
 	}
 
 	if err != nil {
 		log.Println(err)
 	}
+}
+
+func getFileSystem() http.FileSystem {
+	fsys, err := fs.Sub(static, "public")
+	if err != nil {
+		log.Fatal(err)
+	}
+	return http.FS(fsys)
 }
