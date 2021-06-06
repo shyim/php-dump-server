@@ -26,6 +26,10 @@ jobs:
 
       - name: Login into Github Docker Registery
         run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u shyim --password-stdin
+        
+      - uses: actions/setup-go@v1
+        with:
+          go-version: '1.16'
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
